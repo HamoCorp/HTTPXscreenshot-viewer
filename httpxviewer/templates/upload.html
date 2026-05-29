@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTTPX Screenshot Viewer</title>
+<style>
+body { font-family: Arial; background:#111; color:#eee; padding:40px; }
+.box { max-width:800px; margin:auto; background:#1a1a1a; padding:30px; border-radius:8px; border:1px solid #333; }
+h1 { text-align:center; }
+#drop-area { border: 2px dashed #1E90FF; padding: 30px; text-align:center; margin-bottom:20px; cursor:pointer; }
+#drop-area.hover { background:#222; }
+input[type=text] { width:100%; padding:8px; margin-top:10px; border-radius:4px; border:1px solid #333; background:#222; color:#eee; }
+button { background:#1E90FF; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; margin-top:10px; }
+</style>
+</head>
+<body>
+
+<div class="box">
+<h1>HTTPX Screenshot Viewer</h1>
+
+<h3>Instructions</h3>
+<ol>
+<li>Run HTTPX with screenshots:<br>
+<code>httpx -l urls.txt -o httpx.txt -ss</code></li>
+<li>Ensure there is an <b>output</b> folder in the same directory as httpx.txt with <code>screenshot/</code> and <code>response/</code>.</li>
+<li>Drag & drop your <b>httpx.txt</b> file below and type the path to your output folder.</li>
+</ol>
+
+<form method="POST" enctype="multipart/form-data">
+<div id="drop-area">Drag & Drop HTTPX file here or click to select</div>
+<input type="file" name="httpx_file" id="fileElem" required style="display:none">
+<p>Output folder path:</p>
+<input type="text" name="output_folder" placeholder="C:\path\to\output" required>
+<br>
+<button type="submit">Load Dashboard</button>
+</form>
+</div>
+
+<script>
+var dropArea = document.getElementById('drop-area');
+var fileElem = document.getElementById('fileElem');
+
+dropArea.addEventListener('click', function(){ fileElem.click(); });
+
+dropArea.addEventListener('dragover', function(e){
+    e.preventDefault(); dropArea.classList.add('hover');
+});
+dropArea.addEventListener('dragleave', function(e){
+    dropArea.classList.remove('hover');
+});
+dropArea.addEventListener('drop', function(e){
+    e.preventDefault(); dropArea.classList.remove('hover');
+    fileElem.files = e.dataTransfer.files;
+});
+</script>
+
+</body>
+</html>
